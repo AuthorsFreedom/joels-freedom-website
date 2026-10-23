@@ -1,0 +1,646 @@
+---
+// src/pages/index.astro
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>Joel's Freedom — Coming Soon</title>
+
+    <!-- In-head theme flash prevention -->
+    <script is:inline>
+      const getInitialTheme = () => {
+        const storedTheme =
+          typeof localStorage !== "undefined" && localStorage.getItem("theme");
+        if (storedTheme) return storedTheme;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+      document.documentElement.setAttribute("data-theme", getInitialTheme());
+    </script>
+  </head>
+  <body>
+    <!-- Floating Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg
+        class="sun-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        ><circle cx="12" cy="12" r="5"></circle><line
+          x1="12"
+          y1="1"
+          x2="12"
+          y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line
+          x1="4.22"
+          y1="4.22"
+          x2="5.64"
+          y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"
+        ></line><line x1="1" y1="12" x2="3" y2="12"></line><line
+          x1="21"
+          y1="12"
+          x2="23"
+          y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"
+        ></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg
+      >
+      <svg
+        class="moon-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        ><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg
+      >
+    </button>
+
+    <main class="page-container">
+      <div class="editor-window">
+        <!-- 1. DESKTOP TITLEBAR (Hidden on mobile) -->
+        <div class="desktop-titlebar">
+          <div class="window-controls">
+            <span class="control close"></span>
+            <span class="control minimize"></span>
+            <span class="control expand"></span>
+          </div>
+
+          <div class="titlebar-meta">
+            <svg
+              class="titlebar-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+              <path d="M2 2l7.586 7.586"></path>
+              <circle cx="11" cy="11" r="2"></circle>
+            </svg>
+            <span class="file-name">first-draft.md — Joels Freedom</span>
+          </div>
+        </div>
+
+        <!-- 2. MOBILE APP NAVBAR (Visible only on mobile) -->
+        <div class="mobile-navbar">
+          <div class="mobile-back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><polyline points="15 18 9 12 15 6"></polyline></svg
+            >
+            <span>Drafts</span>
+          </div>
+          <div class="mobile-title">first-draft.md</div>
+          <div class="mobile-action">Done</div>
+        </div>
+
+        <!-- 3. CANVAS / MANUSCRIPT -->
+        <div class="editor-body">
+          <div class="manuscript">
+            <h1 class="title-line">
+              <span id="title-text"></span><span
+                id="title-cursor"
+                class="cursor"></span>
+            </h1>
+            <p class="subtitle-line">
+              <span id="sub-text"></span><span
+                id="sub-cursor"
+                class="cursor"
+                style="visibility: hidden;"></span>
+            </p>
+          </div>
+        </div>
+
+        <!-- 4. DESKTOP STATUS BAR (With dynamic word counter in center) -->
+        <div class="desktop-statusbar">
+          <span>MANUSCRIPT MODE</span>
+          <span id="desktop-word-count">0 WORDS</span>
+          <span id="status-mode">STATUS: INITIALIZING</span>
+        </div>
+
+        <!-- 5. MOBILE APP TOOLBAR (With dynamic word counter in center) -->
+        <div class="mobile-toolbar">
+          <button class="mobile-tool-btn" aria-label="Formatting">
+            <span class="font-tool-icon">Aa</span>
+          </button>
+          <span id="mobile-word-count" class="mobile-word-count">0 words</span>
+          <button class="mobile-tool-btn" aria-label="Share">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+              <polyline points="16 6 12 2 8 6"></polyline>
+              <line x1="12" y1="2" x2="12" y2="15"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Theme Toggle
+      const themeToggle = document.getElementById("theme-toggle");
+      themeToggle?.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") || "light";
+        const nextTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("theme", nextTheme);
+      });
+
+      // Typing animation elements
+      const titleTarget = "Joels Freedom";
+      const phrases = [
+        "Coming soon...",
+        "Demnächst...",
+        "Bientôt disponible...",
+        "Próximamente...",
+        "Prossimamente...",
+        "Em breve...",
+      ];
+
+      const titleEl = document.getElementById("title-text");
+      const titleCursor = document.getElementById("title-cursor");
+      const subEl = document.getElementById("sub-text");
+      const subCursor = document.getElementById("sub-cursor");
+      const statusMode = document.getElementById("status-mode");
+      const desktopWordCount = document.getElementById("desktop-word-count");
+      const mobileWordCount = document.getElementById("mobile-word-count");
+
+      // Live Word Counter Function
+      function updateLiveWordCount() {
+        const title = titleEl?.textContent || "";
+        const sub = subEl?.textContent || "";
+        const combined = `${title} ${sub}`.trim();
+        const count = combined
+          ? combined.split(/\s+/).filter(Boolean).length
+          : 0;
+
+        const label = count === 1 ? "word" : "words";
+        if (desktopWordCount)
+          desktopWordCount.textContent = `${count} ${label.toUpperCase()}`;
+        if (mobileWordCount) mobileWordCount.textContent = `${count} ${label}`;
+      }
+
+      let titleChar = 0;
+
+      // STAGE 1: Type the Brand Name
+      function typeTitle() {
+        if (!titleEl || !titleCursor) return;
+
+        titleEl.textContent = titleTarget.substring(0, titleChar);
+        updateLiveWordCount();
+
+        if (titleChar < titleTarget.length) {
+          titleChar++;
+          setTimeout(typeTitle, 80 + Math.random() * 60);
+        } else {
+          if (statusMode) statusMode.textContent = "STATUS: DRAFTING";
+          titleCursor.classList.add("slow-blink");
+
+          setTimeout(() => {
+            titleCursor.style.visibility = "hidden";
+            if (subCursor) subCursor.style.visibility = "visible";
+            startSubtitleLoop();
+          }, 800);
+        }
+      }
+
+      // STAGE 2: Multilingual Looper on Line 2
+      let phraseIdx = 0;
+      let subChar = 0;
+      let isDeleting = false;
+
+      function startSubtitleLoop() {
+        if (!subEl || !subCursor) return;
+
+        const currentPhrase = phrases[phraseIdx];
+        subEl.textContent = currentPhrase.substring(0, subChar);
+        updateLiveWordCount();
+
+        let delay = 110;
+
+        if (!isDeleting) {
+          delay = 90 + Math.random() * 70;
+          if (subChar < currentPhrase.length) {
+            subChar++;
+          } else {
+            subCursor.classList.add("slow-blink");
+            isDeleting = true;
+            delay = 2400;
+          }
+        } else {
+          subCursor.classList.remove("slow-blink");
+          delay = 45;
+          if (subChar > 0) {
+            subChar--;
+          } else {
+            isDeleting = false;
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            delay = 600;
+          }
+        }
+
+        setTimeout(startSubtitleLoop, delay);
+      }
+
+      setTimeout(typeTitle, 400);
+    </script>
+
+    <style>
+      /* --- 1. LOCAL FONTS --- */
+      @font-face {
+        font-family: "Junicode";
+        src: url("/fonts/Junicode.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Fira Code";
+        src:
+          url("/fonts/FiraCode-Regular.woff2") format("woff2"),
+          url("/fonts/FiraCode-Regular.ttf") format("truetype");
+        font-weight: 400 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* --- 2. COLOR PALETTES --- */
+      :root {
+        --bg-color: #f3f0e8;
+        --window-bg: #fbf9f5;
+        --border-color: #e3ded5;
+        --titlebar-bg: #f5f2ea;
+        --statusbar-bg: #f5f2ea;
+        --typed-text-color: #2a2d34;
+        --muted-text: #928d84;
+        --cursor-color: #0284c7;
+        --accent-mobile: #0284c7;
+        --toggle-bg: #fbf9f5;
+        --toggle-border: #e3ded5;
+        --toggle-icon-color: #57534e;
+        --window-shadow: 0 15px 35px -10px rgba(60, 50, 40, 0.08);
+      }
+
+      :root[data-theme="dark"] {
+        --bg-color: #0e0f12;
+        --window-bg: #16181d;
+        --border-color: #262933;
+        --titlebar-bg: #1c1f26;
+        --statusbar-bg: #1c1f26;
+        --typed-text-color: #d6dae2;
+        --muted-text: #6b7280;
+        --cursor-color: #38bdf8;
+        --accent-mobile: #38bdf8;
+        --toggle-bg: #1a1c23;
+        --toggle-border: #2b303c;
+        --toggle-icon-color: #f3f4f6;
+        --window-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.6);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        font-family:
+          "Fira Code",
+          ui-monospace,
+          SFMono-Regular,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          monospace;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.25s ease;
+        padding: 1rem 0;
+      }
+
+      /* Floating Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: 38px;
+        height: 38px;
+        background: var(--toggle-bg);
+        border: 1px solid var(--toggle-border);
+        color: var(--toggle-icon-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        transition: all 0.2s ease;
+        z-index: 50;
+      }
+      .theme-toggle:hover {
+        transform: scale(1.08);
+      }
+      :root[data-theme="light"] .sun-icon {
+        display: none;
+      }
+      :root[data-theme="light"] .moon-icon {
+        display: block;
+      }
+      :root[data-theme="dark"] .sun-icon {
+        display: block;
+      }
+      :root[data-theme="dark"] .moon-icon {
+        display: none;
+      }
+
+      .page-container {
+        width: 100%;
+        max-width: 680px;
+        padding: 0.85rem;
+      }
+
+      /* Base Window Frame */
+      .editor-window {
+        background: var(--window-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        box-shadow: var(--window-shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* --- MOBILE APP NAVBAR --- */
+      .mobile-navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--titlebar-bg);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+          sans-serif;
+        user-select: none;
+      }
+
+      .mobile-back {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        color: var(--accent-mobile);
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+
+      .mobile-title {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--typed-text-color);
+        letter-spacing: -0.01em;
+      }
+
+      .mobile-action {
+        color: var(--accent-mobile);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      /* --- DESKTOP TITLEBAR (Hidden on mobile) --- */
+      .desktop-titlebar {
+        display: none;
+      }
+
+      /* --- CANVAS --- */
+      .editor-body {
+        padding: 2.25rem 1.5rem;
+        min-height: 190px;
+        display: flex;
+        align-items: center;
+      }
+
+      .manuscript {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+      }
+
+      .title-line {
+        font-family: "Junicode", Georgia, serif;
+        font-size: clamp(1.65rem, 6.5vw, 2.75rem);
+        color: var(--typed-text-color);
+        font-weight: 400;
+        line-height: 1.2;
+        min-height: 1.2em;
+        letter-spacing: -0.015em;
+      }
+
+      .subtitle-line {
+        font-family: "Junicode", Georgia, serif;
+        font-size: clamp(1.1rem, 4.2vw, 1.75rem);
+        color: var(--typed-text-color);
+        font-style: italic;
+        opacity: 0.85;
+        line-height: 1.35;
+        min-height: 1.35em;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 2.5px;
+        height: 1.15em;
+        background-color: var(--cursor-color);
+        margin-left: 3px;
+        vertical-align: -2px;
+        animation: blink 0.75s infinite;
+        font-style: normal;
+      }
+
+      .cursor.slow-blink {
+        animation: blink 1.2s infinite ease-in-out;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* --- MOBILE APP TOOLBAR --- */
+      .mobile-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 18px;
+        background: var(--statusbar-bg);
+        border-top: 1px solid var(--border-color);
+        user-select: none;
+      }
+
+      .mobile-tool-btn {
+        background: none;
+        border: none;
+        color: var(--accent-mobile);
+        padding: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .font-tool-icon {
+        font-family: "Junicode", Georgia, serif;
+        font-size: 1.05rem;
+        font-weight: bold;
+        letter-spacing: -0.05em;
+      }
+
+      .mobile-word-count {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.75rem;
+        color: var(--muted-text);
+        letter-spacing: 0.02em;
+      }
+
+      /* --- DESKTOP STATUSBAR (Hidden on mobile) --- */
+      .desktop-statusbar {
+        display: none;
+      }
+
+      /* ========================================================
+         DESKTOP BREAKPOINT (>= 580px)
+         ======================================================== */
+      @media (min-width: 580px) {
+        .page-container {
+          padding: 1.5rem;
+        }
+
+        .editor-window {
+          border-radius: 12px;
+        }
+
+        /* Desktop Titlebar */
+        .desktop-titlebar {
+          display: flex;
+          background: var(--titlebar-bg);
+          padding: 12px 16px;
+          align-items: center;
+          border-bottom: 1px solid var(--border-color);
+          user-select: none;
+        }
+
+        /* Desktop Statusbar with Center Word Count */
+        .desktop-statusbar {
+          display: flex;
+          background: var(--statusbar-bg);
+          border-top: 1px solid var(--border-color);
+          padding: 8px 16px;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.7rem;
+          letter-spacing: 0.05em;
+          color: var(--muted-text);
+          user-select: none;
+        }
+
+        /* Hide Mobile App Bars */
+        .mobile-navbar,
+        .mobile-toolbar {
+          display: none;
+        }
+
+        /* Controls & Proxy Icon */
+        .window-controls {
+          display: flex;
+          gap: 8px;
+          flex-shrink: 0;
+        }
+        .control {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        .close {
+          background: #ff5f56;
+        }
+        .minimize {
+          background: #ffbd2e;
+        }
+        .expand {
+          background: #27c93f;
+        }
+
+        .titlebar-meta {
+          margin-left: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 7px;
+        }
+
+        .titlebar-icon {
+          color: var(--muted-text);
+          opacity: 0.85;
+          flex-shrink: 0;
+        }
+
+        .file-name {
+          font-size: 0.8rem;
+          color: var(--muted-text);
+        }
+
+        .editor-body {
+          padding: 3.5rem 3rem;
+          min-height: 220px;
+        }
+      }
+    </style>
+  </body>
+</html>

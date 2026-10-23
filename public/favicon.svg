@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    :root {
+      --bg: #f5f2ea;
+      --border: #e3ded5;
+      --nib: #2a2d34;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16181d;
+        --border: #2b303c;
+        --nib: #d6dae2;
+      }
+    }
+  </style>
+
+  <!-- Background tile for contrast on any browser tab bar -->
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5" />
+
+  <!-- Pure monochrome pen nib -->
+  <g transform="translate(4, 4)" fill="none" stroke="var(--nib)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+    <path d="M2 2l7.586 7.586"/>
+  </g>
+</svg>
