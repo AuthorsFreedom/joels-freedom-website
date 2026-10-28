@@ -1,0 +1,489 @@
+---
+// src/pages/impressum.astro
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Impressum — Joel's Freedom</title>
+
+    <script is:inline>
+      const getInitialTheme = () => {
+        const stored =
+          typeof localStorage !== "undefined" && localStorage.getItem("theme");
+        if (stored) return stored;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+      document.documentElement.setAttribute("data-theme", getInitialTheme());
+    </script>
+  </head>
+  <body>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg
+        class="sun-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        ><circle cx="12" cy="12" r="5"></circle><line
+          x1="12"
+          y1="1"
+          x2="12"
+          y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line
+          x1="4.22"
+          y1="4.22"
+          x2="5.64"
+          y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"
+        ></line><line x1="1" y1="12" x2="3" y2="12"></line><line
+          x1="21"
+          y1="12"
+          x2="23"
+          y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"
+        ></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg
+      >
+      <svg
+        class="moon-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        ><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg
+      >
+    </button>
+
+    <main class="page-container">
+      <div class="editor-window">
+        <div class="desktop-titlebar">
+          <div class="window-controls">
+            <a href="/" class="control close" title="Back to Home"></a>
+            <span class="control minimize"></span>
+            <span class="control expand"></span>
+          </div>
+          <div class="titlebar-meta">
+            <svg
+              class="titlebar-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path><polyline points="14 2 14 8 20 8"></polyline><line
+                x1="16"
+                y1="13"
+                x2="8"
+                y2="13"></line><line x1="16" y1="17" x2="8" y2="17"
+              ></line><polyline points="10 9 9 9 8 9"></polyline></svg
+            >
+            <span class="file-name">impressum.md — Joel's Freedom</span>
+          </div>
+        </div>
+
+        <div class="mobile-navbar">
+          <a href="/" class="mobile-back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><polyline points="15 18 9 12 15 6"></polyline></svg
+            >
+            <span>Back</span>
+          </a>
+          <div class="mobile-title">impressum.md</div>
+          <a href="/" class="mobile-action">Done</a>
+        </div>
+
+        <article class="editor-body legal-doc">
+          <h1>
+            <strong>Impressum</strong>
+          </h1>
+          <h3>
+            <strong>Inhalte gemäß § 5 DDG</strong>
+          </h3>
+          <p style="margin: 0 0 20px">
+            <strong>Joel Storr<br /></strong>c/o IP-Management #12625<br
+            />Ludwig-Erhard-Straße 18<br />20459 Hamburg
+          </p>
+          <p style="margin: 0 0 20px"></p>
+          <h5>Kontaktdaten:</h5>
+          <p style="margin: 0 0 20px">
+            E-Mail: info@joelsfreedom.com<br />Telefon: 0151 23842820 <br />Fax:
+            0637 15619977
+          </p>
+          <p style="margin: 0 0 20px"></p>
+          <p style="margin: 0 0 20px"></p>
+          <p style="margin: 0 0 20px">
+            Quelle: <a href="https://www.impressum-privatschutz.de"
+              >Impressum-Privatschutz</a
+            >
+          </p>
+        </article>
+
+        <div class="desktop-statusbar">
+          <span>READ-ONLY</span>
+          <span class="word-count">MANUSCRIPT</span>
+          <span>STATUS: PUBLISHED</span>
+        </div>
+
+        <div class="mobile-toolbar">
+          <a href="/" class="mobile-tool-btn">← Back to Draft</a>
+          <span class="mobile-word-count">Read-only</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Anchored Site Footer -->
+    <footer class="site-footer">
+      <a href="/" class="footer-link">Home</a>
+      <span class="footer-sep">/</span>
+      <a href="/impressum" class="footer-link active" aria-current="page"
+        >Impressum</a
+      >
+      <span class="footer-sep">/</span>
+      <a href="/datenschutz" class="footer-link">Datenschutz</a>
+    </footer>
+
+    <script>
+      const themeToggle = document.getElementById("theme-toggle");
+      themeToggle?.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") || "light";
+        const nextTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("theme", nextTheme);
+      });
+    </script>
+
+    <style>
+      @font-face {
+        font-family: "Junicode";
+        src: url("/fonts/Junicode.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Fira Code";
+        src:
+          url("/fonts/FiraCode-Regular.woff2") format("woff2"),
+          url("/fonts/FiraCode-Regular.ttf") format("truetype");
+        font-weight: 400 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --bg-color: #f3f0e8;
+        --window-bg: #fbf9f5;
+        --border-color: #e3ded5;
+        --titlebar-bg: #f5f2ea;
+        --statusbar-bg: #f5f2ea;
+        --typed-text-color: #2a2d34;
+        --muted-text: #928d84;
+        --cursor-color: #0284c7;
+        --accent-mobile: #0284c7;
+        --toggle-bg: #fbf9f5;
+        --toggle-border: #e3ded5;
+        --toggle-icon-color: #57534e;
+        --window-shadow: 0 15px 35px -10px rgba(60, 50, 40, 0.08);
+      }
+
+      :root[data-theme="dark"] {
+        --bg-color: #0e0f12;
+        --window-bg: #16181d;
+        --border-color: #262933;
+        --titlebar-bg: #1c1f26;
+        --statusbar-bg: #1c1f26;
+        --typed-text-color: #d6dae2;
+        --muted-text: #6b7280;
+        --cursor-color: #38bdf8;
+        --accent-mobile: #38bdf8;
+        --toggle-bg: #1a1c23;
+        --toggle-border: #2b303c;
+        --toggle-icon-color: #f3f4f6;
+        --window-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.6);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        font-family: "Fira Code", ui-monospace, SFMono-Regular, monospace;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0 max(1rem, env(safe-area-inset-bottom));
+        transition: background-color 0.25s ease;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: 38px;
+        height: 38px;
+        background: var(--toggle-bg);
+        border: 1px solid var(--toggle-border);
+        color: var(--toggle-icon-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        transition: all 0.2s ease;
+        z-index: 50;
+      }
+      .theme-toggle:hover {
+        transform: scale(1.08);
+      }
+      :root[data-theme="light"] .sun-icon {
+        display: none;
+      }
+      :root[data-theme="light"] .moon-icon {
+        display: block;
+      }
+      :root[data-theme="dark"] .sun-icon {
+        display: block;
+      }
+      :root[data-theme="dark"] .moon-icon {
+        display: none;
+      }
+
+      .page-container {
+        width: 100%;
+        max-width: 680px;
+        padding: 0.85rem;
+        margin: auto 0;
+      }
+
+      .editor-window {
+        background: var(--window-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        box-shadow: var(--window-shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .mobile-navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--titlebar-bg);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .mobile-back,
+      .mobile-action {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        color: var(--accent-mobile);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      .mobile-title {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--typed-text-color);
+      }
+
+      .desktop-titlebar {
+        display: none;
+      }
+
+      .editor-body.legal-doc {
+        padding: 2rem 1.5rem;
+        font-family: "Junicode", Georgia, serif;
+        color: var(--typed-text-color);
+        line-height: 1.65;
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      .legal-doc h1 {
+        font-size: 2rem;
+        font-weight: normal;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .legal-doc h2 {
+        font-family: "Fira Code", monospace;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--muted-text);
+      }
+
+      .legal-doc p {
+        font-size: 1.05rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .legal-doc a {
+        color: var(--cursor-color);
+        text-decoration: none;
+      }
+      .legal-doc a:hover {
+        text-decoration: underline;
+      }
+
+      .mobile-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 18px;
+        background: var(--statusbar-bg);
+        border-top: 1px solid var(--border-color);
+      }
+      .mobile-tool-btn {
+        color: var(--accent-mobile);
+        text-decoration: none;
+        font-size: 0.8rem;
+      }
+      .mobile-word-count {
+        font-size: 0.75rem;
+        color: var(--muted-text);
+      }
+
+      .desktop-statusbar {
+        display: none;
+      }
+
+      /* --- UNIFIED BOTTOM FOOTER --- */
+      .site-footer {
+        width: 100%;
+        margin-top: auto;
+        padding: 1.25rem 1rem 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.85rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.05em;
+        user-select: none;
+      }
+
+      .footer-link {
+        color: var(--muted-text);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      .footer-link:hover {
+        color: var(--cursor-color);
+      }
+      .footer-link.active {
+        color: var(--typed-text-color);
+        font-weight: 500;
+      }
+      .footer-sep {
+        color: var(--muted-text);
+        opacity: 0.4;
+      }
+
+      @media (min-width: 580px) {
+        .page-container {
+          padding: 1.5rem;
+        }
+        .editor-window {
+          border-radius: 12px;
+        }
+        .desktop-titlebar {
+          display: flex;
+          background: var(--titlebar-bg);
+          padding: 12px 16px;
+          align-items: center;
+          border-bottom: 1px solid var(--border-color);
+        }
+        .desktop-statusbar {
+          display: flex;
+          background: var(--statusbar-bg);
+          border-top: 1px solid var(--border-color);
+          padding: 8px 16px;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.7rem;
+          color: var(--muted-text);
+        }
+        .mobile-navbar,
+        .mobile-toolbar {
+          display: none;
+        }
+        .window-controls {
+          display: flex;
+          gap: 8px;
+        }
+        .control {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        .close {
+          background: #ff5f56;
+          text-decoration: none;
+        }
+        .minimize {
+          background: #ffbd2e;
+        }
+        .expand {
+          background: #27c93f;
+        }
+        .titlebar-meta {
+          margin-left: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 7px;
+        }
+        .titlebar-icon {
+          color: var(--muted-text);
+        }
+        .file-name {
+          font-size: 0.8rem;
+          color: var(--muted-text);
+        }
+        .editor-body.legal-doc {
+          padding: 2.5rem 3rem;
+        }
+      }
+    </style>
+  </body>
+</html>
